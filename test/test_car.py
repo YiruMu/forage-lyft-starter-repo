@@ -6,7 +6,7 @@ from car import *
 class TestCalliope(unittest.TestCase):
     def test_battery_should_be_serviced(self):
         today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
+        last_service_date = today.replace(year=today.year - 4) # testing for improved battery
         current_mileage = 0
         last_service_mileage = 0
 
@@ -40,11 +40,56 @@ class TestCalliope(unittest.TestCase):
         car = create_calliope(today, last_service_date, current_mileage, last_service_mileage)
         self.assertFalse(car.engine.needs_service())
 
+    # unit testing for tires; same for all car models
+    def test_carrigan_tire_should_be_serviced(self):
+        today = datetime.today().date()
+        last_service_date = today
+        current_mileage = 0
+        last_service_mileage = 0
+        tireType = 'Carrigan'
+        sensor = [0, 0.9, 1, 0]
+
+        car = create_calliope(today, last_service_date, current_mileage, last_service_mileage, tireType, sensor)
+        self.assertTrue(car.tire.needs_service())
+
+    def test_carrigan_tire_should_not_be_serviced(self):
+        today = datetime.today().date()
+        last_service_date = today
+        current_mileage = 0
+        last_service_mileage = 0
+        tireType = 'Carrigan'
+        sensor = [0, 0.8, 0.7, 0]
+
+        car = create_calliope(today, last_service_date, current_mileage, last_service_mileage, tireType, sensor)
+        self.assertFalse(car.tire.needs_service())
+
+    def test_octoprime_tire_should_be_serviced(self):
+        today = datetime.today().date()
+        last_service_date = today
+        current_mileage = 0
+        last_service_mileage = 0
+        tireType = 'Octoprime'
+        sensor = [3, 3, 2, 3]
+
+        car = create_calliope(today, last_service_date, current_mileage, last_service_mileage, tireType, sensor)
+        self.assertTrue(car.tire.needs_service())
+
+    def test_octoprime_tire_should_not_be_serviced(self):
+        today = datetime.today().date()
+        last_service_date = today
+        current_mileage = 0
+        last_service_mileage = 0
+        tireType = 'Octoprime'
+        sensor = [0, 0.8, 0.7, 0]
+
+        car = create_calliope(today, last_service_date, current_mileage, last_service_mileage, tireType, sensor)
+        self.assertFalse(car.tire.needs_service())
+
 
 class TestGlissade(unittest.TestCase):
     def test_battery_should_be_serviced(self):
         today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 3)
+        last_service_date = today.replace(year=today.year - 4) # year changed for improved tire
         current_mileage = 0
         last_service_mileage = 0
 
@@ -90,7 +135,7 @@ class TestPalindrome(unittest.TestCase):
 
     def test_battery_should_not_be_serviced(self):
         today = datetime.today().date()
-        last_service_date = today.replace(year=today.year - 2)
+        last_service_date = today.replace(year=today.year - 3)
         warning_light_is_on = False
 
         car = create_palindrome(today, last_service_date, warning_light_is_on)
